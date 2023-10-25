@@ -8,17 +8,20 @@ services:
     build: 
       dockerfile: Dockerfile
       context: ./nginx
+    image: rishabh2974/mern-app/nginx:latest
     ports:
       - '80:80'
   client:
     build:
       context: ./client
       dockerfile: Dockerfile
+    image: rishabh2974/mern-app/client:latest
     restart: on-failure
     container_name: client
   server:
     build:
       context: ./server
       dockerfile: Dockerfile
+    image: rishabh2974/mern-app/server:latest
     restart: on-failure
     container_name: server
