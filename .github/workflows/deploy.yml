@@ -11,8 +11,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Run docker-compose
-        run: docker-compose up -d
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Login to Docker hub
+        uses: docker/login-actions@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: build docker-compose
+        run: docker compose -f docker-compose.yml build
         env:
           MONGODB_URL: 'mongodb+srv://${{secrets.DB_USERNAME}}:${{secrets.DB_PASSWORD}}@cluster0.k84ucnq.mongodb.net/?retryWrites=true&w=majority'
+      - name: Push image to container registry
+        run: docker compose -f docker-compose.yml push
