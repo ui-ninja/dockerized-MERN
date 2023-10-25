@@ -22,5 +22,3 @@ services:
       dockerfile: Dockerfile
     restart: on-failure
     container_name: server
-    env_file:
-      - ./server/server.env
